@@ -5,7 +5,7 @@ A high-performance, raw Linux UDP server written in C. This project bypasses hig
 
 ---
 
-## 🚀 Features
+## Features
 
 * **Direct Kernel Interface:** Built using low-level POSIX/Linux socket APIs.
 * **In-Memory Payload Reversal:** Reverses arbitrary byte streams directly in memory without relying on standard string libraries (safe for binary data and non-null-terminated payloads).
