@@ -1,6 +1,6 @@
 #include <unistd.h>    
 #include <stdio.h>      
-#include <string.h>    
+#include <string.h>     
 
 //Hardcoded kernel definitions
 #define SYS_CLOSE   3   // Linux x86_64 close syscall
@@ -13,7 +13,7 @@
 #define PORT 5353
 #define BUFFER_SIZE 65507
 
-
+//The exact nested structure format
 struct in_addr {
     unsigned int s_addr;
 };
@@ -21,19 +21,19 @@ struct in_addr {
 struct sockaddr_in {
     unsigned short sin_family;
     unsigned short sin_port;
-    struct in_addr sin_addr; 
+    struct in_addr sin_addr;  
     char           sin_zero[8];
 };
 
 int main() {
-    // Request a socket straight from the kernel
+    //Request a socket straight from the kernel
     long sd = syscall(SYS_SOCKET, AF_INET, SOCK_DGRAM, 0);
     if (sd < 0) {
         printf("The socket is unable to open\n");
         return 1;
     }
 
-    // Set up the target using your nested structure and manual byte swaps
+    //Set up the target using your nested structure and manual byte swaps
     struct sockaddr_in target;
     __builtin_memset(&target, 0, sizeof(target)); // Zero out padding properly
     
@@ -54,7 +54,7 @@ int main() {
          
         if (strcmp("exit", buffer) == 0) break;
 
-        // Send raw message using Syscall 44
+        //Send raw message using Syscall 44
         // Note: I cast target to a generic pointer just like standard C does
         long send_byte = syscall(SYS_SENDTO, sd, buffer, strlen(buffer), 0, 
                                  (void *)&target, sizeof(target));
